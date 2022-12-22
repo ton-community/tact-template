@@ -182,6 +182,36 @@ export function unpackTupleSendParameters(slice: TupleSlice4): SendParameters {
     const data = slice.readCellOpt();
     return { $$type: 'SendParameters', bounce: bounce, to: to, value: value, mode: mode, body: body, code: code, data: data };
 }
+export type ChangeOwner = {
+    $$type: 'ChangeOwner';
+    newOwner: Address;
+}
+
+export function packChangeOwner(src: ChangeOwner): Cell {
+    let b_0 = new Builder();
+    b_0 = b_0.storeUint(3067051791, 32);
+    b_0 = b_0.storeAddress(src.newOwner);
+    return b_0.endCell();
+}
+
+export function packStackChangeOwner(src: ChangeOwner, __stack: StackItem[]) {
+    __stack.push({ type: 'slice', cell: beginCell().storeAddress(src.newOwner).endCell() });
+}
+
+export function packTupleChangeOwner(src: ChangeOwner): StackItem[] {
+    let __stack: StackItem[] = [];
+    __stack.push({ type: 'slice', cell: beginCell().storeAddress(src.newOwner).endCell() });
+    return __stack;
+}
+
+export function unpackStackChangeOwner(slice: TupleSlice4): ChangeOwner {
+    const newOwner = slice.readAddress();
+    return { $$type: 'ChangeOwner', newOwner: newOwner };
+}
+export function unpackTupleChangeOwner(slice: TupleSlice4): ChangeOwner {
+    const newOwner = slice.readAddress();
+    return { $$type: 'ChangeOwner', newOwner: newOwner };
+}
 export type Add = {
     $$type: 'Add';
     amount: BN;
@@ -212,8 +242,38 @@ export function unpackTupleAdd(slice: TupleSlice4): Add {
     const amount = slice.readBigNumber();
     return { $$type: 'Add', amount: amount };
 }
+export type Withdraw = {
+    $$type: 'Withdraw';
+    amount: BN;
+}
+
+export function packWithdraw(src: Withdraw): Cell {
+    let b_0 = new Builder();
+    b_0 = b_0.storeUint(1286094280, 32);
+    b_0 = b_0.storeInt(src.amount, 257);
+    return b_0.endCell();
+}
+
+export function packStackWithdraw(src: Withdraw, __stack: StackItem[]) {
+    __stack.push({ type: 'int', value: src.amount });
+}
+
+export function packTupleWithdraw(src: Withdraw): StackItem[] {
+    let __stack: StackItem[] = [];
+    __stack.push({ type: 'int', value: src.amount });
+    return __stack;
+}
+
+export function unpackStackWithdraw(slice: TupleSlice4): Withdraw {
+    const amount = slice.readBigNumber();
+    return { $$type: 'Withdraw', amount: amount };
+}
+export function unpackTupleWithdraw(slice: TupleSlice4): Withdraw {
+    const amount = slice.readBigNumber();
+    return { $$type: 'Withdraw', amount: amount };
+}
 export async function SampleTactContract_init(owner: Address) {
-    const __code = 'te6ccgECJAEAAkMAART/APSkE/S88sgLAQIBYgIDAgLLBAUCASAaGwIBIAYHAgFIEBEB6d9v24EOuk4Q/KmBBrhY/vAWhpgYC42GAAyL/IuHEA/SAYKiCKt4H8MIFIrfAQQQhiq5qD3UcaGHaiaGoA/DFpj/0gAIk2CQFpj4DBCGKrmoPdeXBA6Y+AmIl4CeR8IQDmLIFlj4Dni2T2qnBgAEiYcYb5YEFAgCAVgKCwHi+QEggvDE+NcjEu3971t77HgzvbsWLRURvXipEq7Q8mN69lVyrrqOIzDtRNDUAfhi0x/6QAESbBLwFMj4QgHMWQLLHwHPFsntVNsx4ILw3mcP7oxWEhl9P9K0CUaKxioIBPnBlhOsS9Mkdx6QjHi64wIJAETtRNDUAfhi0x/6QAESbBLwFcj4QgHMWQLLHwHPFsntVNsxAgEgDA0CASAODwAZHACyMxZAssfAc8WyYAAZPhBbyMwMSHHBfLghIAANFnwDQKgAYAADDCACASASEwIBSBgZAgEgFBUCASAWFwALFv4J28QgAAcW4AqgAAMMYAAFPAOgAAccfAOgAAcAaUBgAgEgHB0CAUgeHwAJuz2fAMgAJ7hR3tRNDUAfhi0x/6QAESbBLwEoAgFYICECASAiIwAnr2B2omhqAPwxaY/9IACJNgl4CEAAJ60MdqJoagD8MWmP/SAAiTYJeAfAACezPjtRNDUAfhi0x/6QAESbBLwEYABNsvRgnBc7D1dLK57HoTsOdZKhRtmgnCd1jUtK2R8syLTry398WI5g';
+    const __code = 'te6ccgECMQEAA8IAART/APSkE/S88sgLAQIBYgIDAgLLBAUCASAnKAIBIAYHAgEgDg8CAUgICQAV/KP4DlAHA4AOUAQC7U7ftwIddJwh+VMCDXCx/eAtDTAwFxsMABkX+RcOIB+kAwVEEVbwP4YQKRW+AgghDFVzUHuo40MO1E0NQB+GLTH/pAARJsEgLTHwGCEMVXNQe68uCB0x8BMRLwGMj4QgHMWQLLHwHPFsntVOAgghBMqD3IuuMCIICgsAC0IG7y0ICABuMO1E0NQB+GLTH/pAARJsEgLTHwGCEEyoPci68uCBgQEB1wABMRLwGcj4QgHMWQLLHwHPFsntVAGOghC2z38Puo40MO1E0NQB+GLTH/pAARJsEgLTHwGCELbPfw+68uCB+kABMRLwHMj4QgHMWQLLHwHPFsntVODAAJEw4w3ywIIMAeL5ASCC8MT41yMS7f3vW3vseDO9uxYtFRG9eKkSrtDyY3r2VXKuuo4jMO1E0NQB+GLTH/pAARJsEvAayPhCAcxZAssfAc8Wye1U2zHggvDeZw/ujFYSGX0/0rQJRorGKggE+cGWE6xL0yR3HpCMeLrjAg0ARO1E0NQB+GLTH/pAARJsEvAbyPhCAcxZAssfAc8Wye1U2zECASAQEQIBIB8gAgEgEhMCASAZGgIBIBQVAgEgFxgB9zIcQHKAVAH8A9wAcoCUAXPFlAD+gJwAcpoI26zJW6zsY49f/APyHDwD3DwDyRus5l/8A8E8AJQBMyVNANw8A/iJG6zmX/wDwTwAlAEzJU0A3DwD+Jw8A8Cf/APAslYzJYzMwFw8A/iIW6zmH/wDwHwAgHMlDFw8A/iyQGAWABkcALIzFkCyx8BzxbJgAAT7AAAZPhBbyMwMSHHBfLghIAANFnwEgKgAYAIBIBscAgEgHR4AAwwgAAsW/gnbxCAABxbgCqAAAwxgAgEgISIAC9LPgJGADAIBICMkAgEgJSYABTwE4AAzFnwEvgnbxAjvPLh3nABcG1tIwdVIG3wEAGAABxx8BOAABwBpQGACASApKgIBSCssAAm7PZ8BGAAnuFHe1E0NQB+GLTH/pAARJsEvAXgCAVgtLgIBIC8wACevYHaiaGoA/DFpj/0gAIk2CXgKwAAnrQx2omhqAPwxaY/9IACJNgl4CkAAJ7M+O1E0NQB+GLTH/pAARJsEvAWgAJWy9GCcFzsPV0srnsehOw51kqFG2aCcJ3WNS0rZHyzItOvLf3xYjmCcKAWPdCZRLm1qqkKwpYALAaCcEDOdWnnFfnSULAdYW4mR7KA=';
     const depends = new Map<string, Cell>();
     let systemCell = beginCell().storeDict(null).endCell();
     let __stack: StackItem[] = [];
@@ -255,16 +315,22 @@ export class SampleTactContract {
     readonly executor: ContractExecutor; 
     constructor(executor: ContractExecutor) { this.executor = executor; } 
     
-    async send(args: { amount: BN, from?: Address, debug?: boolean }, message: Add | 'increment' | 'dec') {
+    async send(args: { amount: BN, from?: Address, debug?: boolean }, message: Add | Withdraw | 'increment' | 'dec' | ChangeOwner) {
         let body: Cell | null = null;
         if (message && typeof message === 'object' && !(message instanceof Slice) && message.$$type === 'Add') {
             body = packAdd(message);
+        }
+        if (message && typeof message === 'object' && !(message instanceof Slice) && message.$$type === 'Withdraw') {
+            body = packWithdraw(message);
         }
         if (message === 'increment') {
             body = beginCell().storeUint(0, 32).storeBuffer(Buffer.from(message)).endCell();
         }
         if (message === 'dec') {
             body = beginCell().storeUint(0, 32).storeBuffer(Buffer.from(message)).endCell();
+        }
+        if (message && typeof message === 'object' && !(message instanceof Slice) && message.$$type === 'ChangeOwner') {
+            body = packChangeOwner(message);
         }
         if (body === null) { throw new Error('Invalid message type'); }
         try {

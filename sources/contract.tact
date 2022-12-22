@@ -1,7 +1,12 @@
+import "@stdlib/ownable";
+
 message Add {
     amount: Int as uint32;
 }
 
+message Withdraw {
+    amount: Int;
+}
 
 contract SampleTactContract with OwnableTransferable {
     counter: Int as uint32;
@@ -21,6 +26,16 @@ contract SampleTactContract with OwnableTransferable {
 
     receive(msg: Add) {
         self.add(msg.amount);
+    }
+
+    receive(msg: Withdraw) {
+        self.requireOwner();
+        nativeThrowUnless(478, myBalance() > msg.amount);
+        send(SendParameters{
+            to: self.owner,
+            value: msg.amount,
+            bounce: false
+        });
     }
 
     receive("increment") {

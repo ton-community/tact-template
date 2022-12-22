@@ -278,6 +278,40 @@
       }
     },
     {
+      "name": "ChangeOwner",
+      "header": 0,
+      "fields": [
+        {
+          "name": "newOwner",
+          "type": {
+            "kind": "ref",
+            "name": "Address",
+            "optional": false
+          }
+        }
+      ],
+      "allocation": {
+        "prefix": 3067051791,
+        "root": {
+          "fields": [
+            {
+              "index": 0,
+              "size": {
+                "bits": 267,
+                "refs": 0
+              },
+              "kind": "address"
+            }
+          ],
+          "next": null,
+          "size": {
+            "bits": 267,
+            "refs": 0
+          }
+        }
+      }
+    },
+    {
       "name": "Add",
       "header": 0,
       "fields": [
@@ -311,6 +345,41 @@
           }
         }
       }
+    },
+    {
+      "name": "Withdraw",
+      "header": 0,
+      "fields": [
+        {
+          "name": "amount",
+          "type": {
+            "kind": "ref",
+            "name": "Int",
+            "optional": false
+          }
+        }
+      ],
+      "allocation": {
+        "prefix": 1286094280,
+        "root": {
+          "fields": [
+            {
+              "index": 0,
+              "size": {
+                "bits": 257,
+                "refs": 0
+              },
+              "kind": "int",
+              "bits": 257
+            }
+          ],
+          "next": null,
+          "size": {
+            "bits": 257,
+            "refs": 0
+          }
+        }
+      }
     }
   ],
   "init": {
@@ -332,12 +401,20 @@
       "type": "Add"
     },
     {
+      "kind": "internal-binary",
+      "type": "Withdraw"
+    },
+    {
       "kind": "internal-comment",
       "comment": "increment"
     },
     {
       "kind": "internal-comment",
       "comment": "dec"
+    },
+    {
+      "kind": "internal-binary",
+      "type": "ChangeOwner"
     }
   ],
   "getters": [
