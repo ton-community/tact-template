@@ -334,6 +334,10 @@
     {
       "kind": "internal-comment",
       "comment": "increment"
+    },
+    {
+      "kind": "internal-comment",
+      "comment": "dec"
     }
   ],
   "getters": [
@@ -343,6 +347,24 @@
       "returns": {
         "kind": "ref",
         "name": "Int",
+        "optional": false
+      }
+    },
+    {
+      "name": "balance",
+      "args": [],
+      "returns": {
+        "kind": "ref",
+        "name": "Int",
+        "optional": false
+      }
+    },
+    {
+      "name": "owner",
+      "args": [],
+      "returns": {
+        "kind": "ref",
+        "name": "Address",
         "optional": false
       }
     }

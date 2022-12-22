@@ -22,6 +22,10 @@ describe('contract', () => {
         // Check counter
         expect((await contract.getCounter()).toString()).toEqual('1');
 
+        // Increment counter
+        await contract.send({ amount: toNano(1), from: nonOwner }, 'dec');
+        expect((await contract.getCounter()).toString()).toEqual('0');
+
         // Non-owner
         await expect(() => contract.send({ amount: toNano(1), from: nonOwner }, 'increment')).rejects.toThrowError('Constraints error');
     });

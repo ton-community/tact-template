@@ -47,11 +47,10 @@ SETCP0
       LDREF
       s0 s1 XCHG
       2 SETGLOBVAR
+      32 LDU
       LDMSGADDR
       s0 s1 XCHG
-      s0 s1 XCHG
-      32 LDU
-      ROTREV
+      s1 s2 XCHG
       1 2 BLKDROP2
       s0 s2 XCHG
       32 LDU
@@ -63,15 +62,16 @@ SETCP0
       s0 s1 XCHG
       s1 POP
       s1 s2 XCHG
-      14 CALLDICT
+      17 CALLDICT
       NEWC
       2 GETGLOBVAR
       s0 s1 XCHG
       STREF
       ROTREV
-      ROTREV
-      STSLICER
+      s0 s2 XCHG
       32 STU
+      s0 s1 XCHG
+      STSLICER
       ENDC
       c4 POP
     }> PUSHCONT
@@ -82,7 +82,37 @@ SETCP0
     }> PUSHCONT
     <{
       HASHSU
+      s0 PUSH
       89092981215441470209245890604563109773385607357076622359718516871332286001838 PUSHINT
+      EQUAL
+      <{
+        s0 POP
+        c4 PUSH
+        CTOS
+        LDREF
+        s0 s1 XCHG
+        2 SETGLOBVAR
+        32 LDU
+        LDMSGADDR
+        s0 s1 XCHG
+        s1 s2 XCHG
+        1 2 BLKDROP2
+        18 CALLDICT
+        NEWC
+        2 GETGLOBVAR
+        s0 s1 XCHG
+        STREF
+        ROTREV
+        s0 s2 XCHG
+        32 STU
+        s0 s1 XCHG
+        STSLICER
+        ENDC
+        c4 POP
+        RETALT
+      }> PUSHCONT
+      IFJMP
+      100595547590598948711597982087367633970071360142702224366101845453322392210552 PUSHINT
       EQUAL
       <{
         c4 PUSH
@@ -90,65 +120,106 @@ SETCP0
         LDREF
         s0 s1 XCHG
         2 SETGLOBVAR
+        32 LDU
         LDMSGADDR
         s0 s1 XCHG
-        s0 s1 XCHG
-        32 LDU
-        ROTREV
+        s1 s2 XCHG
         1 2 BLKDROP2
-        15 CALLDICT
+        19 CALLDICT
         NEWC
         2 GETGLOBVAR
         s0 s1 XCHG
         STREF
         ROTREV
-        ROTREV
-        STSLICER
+        s0 s2 XCHG
         32 STU
+        s0 s1 XCHG
+        STSLICER
         ENDC
         c4 POP
         RETALT
-      }> PUSHCONT
-      IFJMP
+      }> IFJMPREF
     }> IFREFELSE
     130 THROW
 
-  10: 
+  11: 
     131 THROWIFNOT
 
-  11: 
+  12: 
     0 PUSHINT
     s0 s2 XCHG
     NEWC
     STREF
-    s0 s2 XCHG
     ROTREV
-    STSLICER
+    s0 s2 XCHG
     32 STU
+    s0 s1 XCHG
+    STSLICER
     ENDC
 
-  12: 
+  13: 
     1 GETGLOBVAR
     3 UNTUPLE
     s0 POP
     s1 POP
-    s3 PUSH
+    s2 PUSH
     SDEQ
-    10 CALLDICT
+    11 CALLDICT
+    s1 s2 XCHG
     ADD
-
-  13: 
-    s1 POP
+    s0 s1 XCHG
 
   14: 
-    12 CALLDICT
+    s0 POP
 
   15: 
+    2DROP
+    BALANCE
+    0 INDEX
+
+  16: 
+    s1 POP
+
+  17: 
+    13 CALLDICT
+
+  18: 
     1 PUSHINT
-    12 CALLDICT
+    13 CALLDICT
+
+  19: 
+    s0 s1 XCHG
+    DEC
+    s0 s1 XCHG
 
   78809: 
-    11 CALLDICT
+    12 CALLDICT
+
+  owner: 
+    c4 PUSH
+    CTOS
+    LDREF
+    s0 s1 XCHG
+    2 SETGLOBVAR
+    32 LDU
+    LDMSGADDR
+    s0 s1 XCHG
+    s1 s2 XCHG
+    1 2 BLKDROP2
+    16 CALLDICT
+
+  104128: 
+    c4 PUSH
+    CTOS
+    LDREF
+    s0 s1 XCHG
+    2 SETGLOBVAR
+    32 LDU
+    LDMSGADDR
+    s0 s1 XCHG
+    s1 s2 XCHG
+    1 2 BLKDROP2
+    15 CALLDICT
 
   104984: 
     c4 PUSH
@@ -156,13 +227,12 @@ SETCP0
     LDREF
     s0 s1 XCHG
     2 SETGLOBVAR
+    32 LDU
     LDMSGADDR
     s0 s1 XCHG
-    s0 s1 XCHG
-    32 LDU
-    ROTREV
+    s1 s2 XCHG
     1 2 BLKDROP2
-    13 CALLDICT
+    14 CALLDICT
 
   113617: 
     123515602279859691144772641439386770278 PUSHINT

@@ -1,4 +1,5 @@
 PROGRAM{
+  DECLPROC __tact_my_balance
   DECLPROC __tact_context_get
   DECLPROC __tact_load_address
   DECLPROC __tact_store_address
@@ -13,14 +14,23 @@ PROGRAM{
   DECLPROC __gen_SampleTactContract_add
   DECLPROC __gen_SampleTactContract_counter
   104984 DECLMETHOD __gen_get_counter
+  DECLPROC __gen_SampleTactContract_balance
+  104128 DECLMETHOD __gen_get_balance
+  DECLPROC __gen_SampleTactContract_owner
+  83229 DECLMETHOD __gen_get_owner
   DECLPROC __gen_SampleTactContract_receive_Add
   DECLPROC __gen_SampleTactContract_receive_comment_c4f8d72312edfdef5b7bec7833bdbb162d1511bd78a912aed0f2637af65572ae
+  DECLPROC __gen_SampleTactContract_receive_comment_de670fee8c5612197d3fd2b409468ac62a0804f9c19613ac4bd324771e908c78
   DECLPROC recv_internal
   78809 DECLMETHOD init_SampleTactContract
   113617 DECLMETHOD supported_interfaces
   DECLPROC get_abi_ipfs
   DECLGLOBVAR __tact_context
   DECLGLOBVAR __tact_context_sys
+  __tact_my_balance PROCINLINE:<{
+    BALANCE
+    FIRST
+  }>
   __tact_context_get PROCINLINE:<{
     __tact_context GETGLOB
     UNTRIPLE
@@ -45,15 +55,15 @@ PROGRAM{
     SWAP
   }>
   __gen_write_SampleTactContract PROCINLINE:<{
-    -ROT
-    __tact_store_address INLINECALLDICT
+    s0 s2 XCHG
     32 STU
+    SWAP
+    __tact_store_address INLINECALLDICT
   }>
   __gen_read_SampleTactContract PROCINLINE:<{
-    __tact_load_address INLINECALLDICT
-    SWAP
     32 LDU
-    -ROT
+    __tact_load_address INLINECALLDICT
+    s1 s2 XCHG
   }>
   __gen_load_SampleTactContract PROCINLINE:<{
     c4 PUSH
@@ -82,7 +92,7 @@ PROGRAM{
     s0 s2 XCHG
     NEWC
     STREF
-    s0 s2 XCHG
+    -ROT
     __gen_write_SampleTactContract INLINECALLDICT
     ENDC
   }>
@@ -90,17 +100,34 @@ PROGRAM{
     __tact_context_get INLINECALLDICT
     DROP
     NIP
-    s3 PUSH
+    s2 PUSH
     __tact_address_eq INLINECALLDICT
     require CALLDICT
+    s1 s2 XCHG
     ADD
+    SWAP
   }>
   __gen_SampleTactContract_counter PROC:<{
-    NIP
+    DROP
   }>
   __gen_get_counter PROC:<{
     __gen_load_SampleTactContract INLINECALLDICT
     __gen_SampleTactContract_counter CALLDICT
+  }>
+  __gen_SampleTactContract_balance PROC:<{
+    2DROP
+    __tact_my_balance INLINECALLDICT
+  }>
+  __gen_get_balance PROC:<{
+    __gen_load_SampleTactContract INLINECALLDICT
+    __gen_SampleTactContract_balance CALLDICT
+  }>
+  __gen_SampleTactContract_owner PROC:<{
+    NIP
+  }>
+  __gen_get_owner PROC:<{
+    __gen_load_SampleTactContract INLINECALLDICT
+    __gen_SampleTactContract_owner CALLDICT
   }>
   __gen_SampleTactContract_receive_Add PROC:<{
     __gen_SampleTactContract_add CALLDICT
@@ -108,6 +135,11 @@ PROGRAM{
   __gen_SampleTactContract_receive_comment_c4f8d72312edfdef5b7bec7833bdbb162d1511bd78a912aed0f2637af65572ae PROC:<{
     1 PUSHINT
     __gen_SampleTactContract_add CALLDICT
+  }>
+  __gen_SampleTactContract_receive_comment_de670fee8c5612197d3fd2b409468ac62a0804f9c19613ac4bd324771e908c78 PROC:<{
+    SWAP
+    DEC
+    SWAP
   }>
   recv_internal PROC:<{
     SAMEALTSAVE
@@ -158,11 +190,21 @@ PROGRAM{
     0 EQINT
     IF:<{
       HASHSU
+      DUP
       89092981215441470209245890604563109773385607357076622359718516871332286001838 PUSHINT
       EQUAL
       IFJMP:<{
+        DROP
         __gen_load_SampleTactContract INLINECALLDICT
         __gen_SampleTactContract_receive_comment_c4f8d72312edfdef5b7bec7833bdbb162d1511bd78a912aed0f2637af65572ae CALLDICT
+        __gen_store_SampleTactContract INLINECALLDICT
+        RETALT
+      }>
+      100595547590598948711597982087367633970071360142702224366101845453322392210552 PUSHINT
+      EQUAL
+      IFJMP:<{
+        __gen_load_SampleTactContract INLINECALLDICT
+        __gen_SampleTactContract_receive_comment_de670fee8c5612197d3fd2b409468ac62a0804f9c19613ac4bd324771e908c78 CALLDICT
         __gen_store_SampleTactContract INLINECALLDICT
         RETALT
       }>
@@ -179,6 +221,6 @@ PROGRAM{
     209801025412363888721030803524359905849 PUSHINT
   }>
   get_abi_ipfs PROC:<{
-    x{697066733a2f2f516d5275716b625546376a70684338347862574c6b646538775746463877783869654c46485a4e4d503142524776} PUSHSLICE
+    x{697066733a2f2f516d61345947654a724c4c65483742535333696a614568446777594a6b507854525a5463646f59514b4b43466863} PUSHSLICE
   }>
 }END>c

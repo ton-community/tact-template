@@ -213,7 +213,7 @@ export function unpackTupleAdd(slice: TupleSlice4): Add {
     return { $$type: 'Add', amount: amount };
 }
 export async function SampleTactContract_init(owner: Address) {
-    const __code = 'te6ccgECFQEAAXcAART/APSkE/S88sgLAQIBYgIDAgLMBAUCASAREgHp32/bgQ66ThD8qYEGuFj+8BaGmBgLjYYADIv8i4cQD9IBgqIIq3gfwwgUit8BBBCGKrmoPdRxoYdqJoagD8MX0gAIDpj6y2CQFpj4DBCGKrmoPdeXBA6Y+AmIl4B2R8IQDmLKzni2WP5PaqcGAASJhxhvlgQUBgIBIAcIAJT5AYLwxPjXIxLt/e9be+x4M727Fi0VEb14qRKu0PJjevZVcq66jiLtRNDUAfhi+kABAdMfWWwS8A/I+EIBzFlZzxbLH8ntVNsx4AIBWAkKAgEgCwwABzy4IOAAFxwAsjMAlnPFssfyYAIBIA0OAgEgDxAAGT4QW8jMDEjxwXwCqCAAAwxgAAU8AyAABxx8AyAACb2ez4BcAgFIExQAKbdDHaiaGoA/DF9IACA6Y+stgl4BsABNt3owTgudh6ullc9j0J2HOslQo2zQThO6xqWlbI+WZFp15b++LEcw';
+    const __code = 'te6ccgECIAEAAhwAART/APSkE/S88sgLAQIBYgIDAgLLBAUCASAYGQIBIAYHAgFiEhMB6d9v24EOuk4Q/KmBBrhY/vAWhpgYC42GAAyL/IuHEA/SAYKiCKt4H8MIFIrfAQQQhiq5qD3UcaGHaiaGoA/DFpj/0gAIk2CQFpj4DBCGKrmoPdeXBA6Y+AmIl4COR8IQDmLIFlj4Dni2T2qnBgAEiYcYb5YEFAgCASAKCwHi+QEggvDE+NcjEu3971t77HgzvbsWLRURvXipEq7Q8mN69lVyrrqOIzDtRNDUAfhi0x/6QAESbBLwEsj4QgHMWQLLHwHPFsntVNsx4ILw3mcP7oxWEhl9P9K0CUaKxioIBPnBlhOsS9Mkdx6QjHi64wIJAETtRNDUAfhi0x/6QAESbBLwE8j4QgHMWQLLHwHPFsntVNsxAAf3lwQcAgEgDA0CASAODwIBIBARABkcALIzFkCyx8BzxbJgAB0+EFvIzAxIscF8AsSoAGAAAwwgAAsW/gnbxCACASAUFQIBIBYXAAMMYAAFPANgAAccfANgAAcAaUBgAgEgGhsCAUgcHQAJuz2fAMgAJ7hR3tRNDUAfhi0x/6QAESbBLwEIAgFYHh8ATbd6ME4LnYerpZXPY9CdhzrJUKNs0E4TusalpWyPlmRadeW/vixHMAAnr2B2omhqAPwxaY/9IACJNgl4B8AAJ60MdqJoagD8MWmP/SAAiTYJeAdA';
     const depends = new Map<string, Cell>();
     let systemCell = beginCell().storeDict(null).endCell();
     let __stack: StackItem[] = [];
@@ -255,12 +255,15 @@ export class SampleTactContract {
     readonly executor: ContractExecutor; 
     constructor(executor: ContractExecutor) { this.executor = executor; } 
     
-    async send(args: { amount: BN, from?: Address, debug?: boolean }, message: Add | 'increment') {
+    async send(args: { amount: BN, from?: Address, debug?: boolean }, message: Add | 'increment' | 'dec') {
         let body: Cell | null = null;
         if (message && typeof message === 'object' && !(message instanceof Slice) && message.$$type === 'Add') {
             body = packAdd(message);
         }
         if (message === 'increment') {
+            body = beginCell().storeUint(0, 32).storeBuffer(Buffer.from(message)).endCell();
+        }
+        if (message === 'dec') {
             body = beginCell().storeUint(0, 32).storeBuffer(Buffer.from(message)).endCell();
         }
         if (body === null) { throw new Error('Invalid message type'); }
@@ -291,6 +294,38 @@ export class SampleTactContract {
             let result = await this.executor.get('counter', __stack, { debug: true });
             if (result.debugLogs.length > 0) { console.warn(result.debugLogs); }
             return result.stack.readBigNumber();
+        } catch (e) {
+            if (e instanceof ExecuteError) {
+                if (e.debugLogs.length > 0) { console.warn(e.debugLogs); }
+                if (SampleTactContract_errors[e.exitCode.toString()]) {
+                    throw new Error(SampleTactContract_errors[e.exitCode.toString()]);
+                }
+            }
+            throw e;
+        }
+    }
+    async getBalance() {
+        try {
+            let __stack: StackItem[] = [];
+            let result = await this.executor.get('balance', __stack, { debug: true });
+            if (result.debugLogs.length > 0) { console.warn(result.debugLogs); }
+            return result.stack.readBigNumber();
+        } catch (e) {
+            if (e instanceof ExecuteError) {
+                if (e.debugLogs.length > 0) { console.warn(e.debugLogs); }
+                if (SampleTactContract_errors[e.exitCode.toString()]) {
+                    throw new Error(SampleTactContract_errors[e.exitCode.toString()]);
+                }
+            }
+            throw e;
+        }
+    }
+    async getOwner() {
+        try {
+            let __stack: StackItem[] = [];
+            let result = await this.executor.get('owner', __stack, { debug: true });
+            if (result.debugLogs.length > 0) { console.warn(result.debugLogs); }
+            return result.stack.readAddress();
         } catch (e) {
             if (e instanceof ExecuteError) {
                 if (e.debugLogs.length > 0) { console.warn(e.debugLogs); }
