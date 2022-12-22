@@ -213,7 +213,7 @@ export function unpackTupleAdd(slice: TupleSlice4): Add {
     return { $$type: 'Add', amount: amount };
 }
 export async function SampleTactContract_init(owner: Address) {
-    const __code = 'te6ccgECIAEAAhwAART/APSkE/S88sgLAQIBYgIDAgLLBAUCASAYGQIBIAYHAgFiEhMB6d9v24EOuk4Q/KmBBrhY/vAWhpgYC42GAAyL/IuHEA/SAYKiCKt4H8MIFIrfAQQQhiq5qD3UcaGHaiaGoA/DFpj/0gAIk2CQFpj4DBCGKrmoPdeXBA6Y+AmIl4COR8IQDmLIFlj4Dni2T2qnBgAEiYcYb5YEFAgCASAKCwHi+QEggvDE+NcjEu3971t77HgzvbsWLRURvXipEq7Q8mN69lVyrrqOIzDtRNDUAfhi0x/6QAESbBLwEsj4QgHMWQLLHwHPFsntVNsx4ILw3mcP7oxWEhl9P9K0CUaKxioIBPnBlhOsS9Mkdx6QjHi64wIJAETtRNDUAfhi0x/6QAESbBLwE8j4QgHMWQLLHwHPFsntVNsxAAf3lwQcAgEgDA0CASAODwIBIBARABkcALIzFkCyx8BzxbJgAB0+EFvIzAxIscF8AsSoAGAAAwwgAAsW/gnbxCACASAUFQIBIBYXAAMMYAAFPANgAAccfANgAAcAaUBgAgEgGhsCAUgcHQAJuz2fAMgAJ7hR3tRNDUAfhi0x/6QAESbBLwEIAgFYHh8ATbd6ME4LnYerpZXPY9CdhzrJUKNs0E4TusalpWyPlmRadeW/vixHMAAnr2B2omhqAPwxaY/9IACJNgl4B8AAJ60MdqJoagD8MWmP/SAAiTYJeAdA';
+    const __code = 'te6ccgECJAEAAkMAART/APSkE/S88sgLAQIBYgIDAgLLBAUCASAaGwIBIAYHAgFIEBEB6d9v24EOuk4Q/KmBBrhY/vAWhpgYC42GAAyL/IuHEA/SAYKiCKt4H8MIFIrfAQQQhiq5qD3UcaGHaiaGoA/DFpj/0gAIk2CQFpj4DBCGKrmoPdeXBA6Y+AmIl4CeR8IQDmLIFlj4Dni2T2qnBgAEiYcYb5YEFAgCAVgKCwHi+QEggvDE+NcjEu3971t77HgzvbsWLRURvXipEq7Q8mN69lVyrrqOIzDtRNDUAfhi0x/6QAESbBLwFMj4QgHMWQLLHwHPFsntVNsx4ILw3mcP7oxWEhl9P9K0CUaKxioIBPnBlhOsS9Mkdx6QjHi64wIJAETtRNDUAfhi0x/6QAESbBLwFcj4QgHMWQLLHwHPFsntVNsxAgEgDA0CASAODwAZHACyMxZAssfAc8WyYAAZPhBbyMwMSHHBfLghIAANFnwDQKgAYAADDCACASASEwIBSBgZAgEgFBUCASAWFwALFv4J28QgAAcW4AqgAAMMYAAFPAOgAAccfAOgAAcAaUBgAgEgHB0CAUgeHwAJuz2fAMgAJ7hR3tRNDUAfhi0x/6QAESbBLwEoAgFYICECASAiIwAnr2B2omhqAPwxaY/9IACJNgl4CEAAJ60MdqJoagD8MWmP/SAAiTYJeAfAACezPjtRNDUAfhi0x/6QAESbBLwEYABNsvRgnBc7D1dLK57HoTsOdZKhRtmgnCd1jUtK2R8syLTry398WI5g';
     const depends = new Map<string, Cell>();
     let systemCell = beginCell().storeDict(null).endCell();
     let __stack: StackItem[] = [];
@@ -308,6 +308,22 @@ export class SampleTactContract {
         try {
             let __stack: StackItem[] = [];
             let result = await this.executor.get('balance', __stack, { debug: true });
+            if (result.debugLogs.length > 0) { console.warn(result.debugLogs); }
+            return result.stack.readBigNumber();
+        } catch (e) {
+            if (e instanceof ExecuteError) {
+                if (e.debugLogs.length > 0) { console.warn(e.debugLogs); }
+                if (SampleTactContract_errors[e.exitCode.toString()]) {
+                    throw new Error(SampleTactContract_errors[e.exitCode.toString()]);
+                }
+            }
+            throw e;
+        }
+    }
+    async getMeaningOfLife() {
+        try {
+            let __stack: StackItem[] = [];
+            let result = await this.executor.get('meaning_of_life', __stack, { debug: true });
             if (result.debugLogs.length > 0) { console.warn(result.debugLogs); }
             return result.stack.readBigNumber();
         } catch (e) {

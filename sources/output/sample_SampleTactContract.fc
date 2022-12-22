@@ -40,6 +40,11 @@ builder __gen_write_SampleTactContract(builder build_0, (int, slice) v) inline {
     return (sc_0, (v'counter, v'owner));
 }
 
+_ __gen_Context_get_sender((int, slice, int) v) inline {
+    var (v'bounced, v'sender, v'value) = v;
+    return v'sender;
+}
+
 (int, slice) __gen_load_SampleTactContract() inline {
     slice sc = get_data().begin_parse();
     __tact_context_sys = sc~load_ref();
@@ -53,10 +58,6 @@ builder __gen_write_SampleTactContract(builder build_0, (int, slice) v) inline {
     set_data(b.end_cell());
 }
 
-() require(int $condition) impure {
-    throw_unless(131, $condition);
-}
-
 cell __gen_SampleTactContract_init(cell sys', slice $owner) {
     var (($self'counter, $self'owner)) = (null(), null());
     $self'owner = $owner;
@@ -67,10 +68,15 @@ cell __gen_SampleTactContract_init(cell sys', slice $owner) {
     return b'.end_cell();
 }
 
+((int, slice), ()) __gen_SampleTactContract_requireOwner((int, slice) $self) impure {
+    var (($self'counter, $self'owner)) = $self;
+    throw_unless(132, __tact_address_eq(__gen_Context_get_sender(__tact_context_get()), $self'owner));
+    return (($self'counter, $self'owner), ());
+}
+
 ((int, slice), ()) __gen_SampleTactContract_add((int, slice) $self, int $v) impure {
     var (($self'counter, $self'owner)) = $self;
-    var ($ctx'bounced, $ctx'sender, $ctx'value) = __tact_context_get();
-    require(__tact_address_eq($ctx'sender, $self'owner));
+    ($self'counter, $self'owner)~__gen_SampleTactContract_requireOwner();
     $self'counter = ($self'counter + $v);
     return (($self'counter, $self'owner), ());
 }
@@ -94,6 +100,17 @@ int __gen_SampleTactContract_balance((int, slice) $self) impure {
 _ __gen_get_balance() method_id(104128) {
     var self = __gen_load_SampleTactContract();
     var res = __gen_SampleTactContract_balance(self);
+    return res;
+}
+
+int __gen_SampleTactContract_meaning_of_life((int, slice) $self) impure {
+    var (($self'counter, $self'owner)) = $self;
+    return 42;
+}
+
+_ __gen_get_meaning_of_life() method_id(109816) {
+    var self = __gen_load_SampleTactContract();
+    var res = __gen_SampleTactContract_meaning_of_life(self);
     return res;
 }
 
@@ -191,5 +208,5 @@ _ supported_interfaces() method_id {
 }
 
 _ get_abi_ipfs() {
-    return "ipfs://Qma4YGeJrLLeH7BSS3ijaEhDgwYJkPxTRZTcdoYQKKCFhc";
+    return "ipfs://QmQmT97WfcHnnaLxmApnhWR2S9Qtbnywx98uGoAKBVTERP";
 }

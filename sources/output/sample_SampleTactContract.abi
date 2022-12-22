@@ -360,6 +360,15 @@
       }
     },
     {
+      "name": "meaning_of_life",
+      "args": [],
+      "returns": {
+        "kind": "ref",
+        "name": "Int",
+        "optional": false
+      }
+    },
+    {
       "name": "owner",
       "args": [],
       "returns": {

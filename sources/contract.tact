@@ -2,19 +2,8 @@ message Add {
     amount: Int as uint32;
 }
 
-trait Ownable {
-    owner: Address;
 
-    fun requireOwner() {
-        nativeThrowUnless(132, context().sender == self.owner);
-    }
-
-    get fun owner(): Address {
-        return self.owner;
-    }
-}
-
-contract SampleTactContract with Ownable {
+contract SampleTactContract with OwnableTransferable {
     counter: Int as uint32;
     owner: Address;
 
@@ -24,9 +13,7 @@ contract SampleTactContract with Ownable {
     }
 
     fun add(v: Int) {
-        // Check sender
-        let ctx: Context = context();
-        require(ctx.sender == self.owner);
+        self.requireOwner();
         
         // Update counter
         self.counter = (self.counter + v);
@@ -50,5 +37,9 @@ contract SampleTactContract with Ownable {
 
     get fun balance(): Int {
         return myBalance();
+    }
+
+    get fun meaning_of_life(): Int {
+        return 42;
     }
 }
