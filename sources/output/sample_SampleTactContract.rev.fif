@@ -62,7 +62,7 @@ SETCP0
       s0 s1 XCHG
       s1 POP
       s1 s2 XCHG
-      24 CALLDICT
+      25 CALLDICT
       NEWC
       2 GETGLOBVAR
       s0 s1 XCHG
@@ -102,7 +102,7 @@ SETCP0
       s0 s1 XCHG
       s1 POP
       s1 s2 XCHG
-      25 CALLDICT
+      26 CALLDICT
       NEWC
       2 GETGLOBVAR
       s0 s1 XCHG
@@ -140,7 +140,7 @@ SETCP0
       s0 s1 XCHG
       s1 POP
       s1 s2 XCHG
-      28 CALLDICT
+      29 CALLDICT
       NEWC
       2 GETGLOBVAR
       s0 s1 XCHG
@@ -175,7 +175,7 @@ SETCP0
         s0 s1 XCHG
         s1 s2 XCHG
         1 2 BLKDROP2
-        26 CALLDICT
+        27 CALLDICT
         NEWC
         2 GETGLOBVAR
         s0 s1 XCHG
@@ -203,7 +203,7 @@ SETCP0
         s0 s1 XCHG
         s1 s2 XCHG
         1 2 BLKDROP2
-        27 CALLDICT
+        28 CALLDICT
         NEWC
         2 GETGLOBVAR
         s0 s1 XCHG
@@ -237,6 +237,9 @@ SETCP0
     1 STI
 
   16: 
+    131 THROWIFNOT
+
+  17: 
     NEWC
     1 PUSHINT
     s0 s1 XCHG
@@ -343,7 +346,7 @@ SETCP0
     s0 s1 XCHG
     SENDRAWMSG
 
-  17: 
+  18: 
     0 PUSHINT
     s0 s2 XCHG
     NEWC
@@ -355,7 +358,7 @@ SETCP0
     STSLICER
     ENDC
 
-  18: 
+  19: 
     1 GETGLOBVAR
     3 UNTUPLE
     s0 POP
@@ -364,39 +367,39 @@ SETCP0
     SDEQ
     132 THROWIFNOT
 
-  19: 
+  20: 
     ROTREV
-    18 CALLDICT
+    19 CALLDICT
     s0 s2 XCHG
     ADD
     s0 s1 XCHG
 
-  20: 
+  21: 
     s0 POP
 
-  21: 
+  22: 
     2DROP
     BALANCE
     0 INDEX
 
-  22: 
+  23: 
     2DROP
     42 PUSHINT
 
-  23: 
+  24: 
     s1 POP
 
-  24: 
-    19 CALLDICT
-
   25: 
+    20 CALLDICT
+
+  26: 
     ROTREV
-    18 CALLDICT
+    19 CALLDICT
     BALANCE
     0 INDEX
     s3 PUSH
     GREATER
-    478 THROWIFNOT
+    16 CALLDICT
     0 PUSHINT
     s0 s1 XCHG
     0 PUSHINT
@@ -406,26 +409,26 @@ SETCP0
     s0 s7 XCHG
     3 1 BLKSWAP
     PUSHNULL
-    16 CALLDICT
+    17 CALLDICT
     s0 s1 XCHG
 
-  26: 
-    1 PUSHINT
-    19 CALLDICT
-
   27: 
+    1 PUSHINT
+    20 CALLDICT
+
+  28: 
     s0 s1 XCHG
     DEC
     s0 s1 XCHG
 
-  28: 
+  29: 
     ROTREV
-    18 CALLDICT
+    19 CALLDICT
     s0 POP
     s0 s1 XCHG
 
   78809: 
-    17 CALLDICT
+    18 CALLDICT
 
   owner: 
     c4 PUSH
@@ -438,7 +441,7 @@ SETCP0
     s0 s1 XCHG
     s1 s2 XCHG
     1 2 BLKDROP2
-    23 CALLDICT
+    24 CALLDICT
 
   104128: 
     c4 PUSH
@@ -451,7 +454,7 @@ SETCP0
     s0 s1 XCHG
     s1 s2 XCHG
     1 2 BLKDROP2
-    21 CALLDICT
+    22 CALLDICT
 
   104984: 
     c4 PUSH
@@ -464,7 +467,7 @@ SETCP0
     s0 s1 XCHG
     s1 s2 XCHG
     1 2 BLKDROP2
-    20 CALLDICT
+    21 CALLDICT
 
   109816: 
     c4 PUSH
@@ -477,7 +480,7 @@ SETCP0
     s0 s1 XCHG
     s1 s2 XCHG
     1 2 BLKDROP2
-    22 CALLDICT
+    23 CALLDICT
 
   113617: 
     123515602279859691144772641439386770278 PUSHINT

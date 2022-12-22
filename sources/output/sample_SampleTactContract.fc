@@ -80,6 +80,10 @@ builder storeBool(builder $s, int $value) impure {
     }
 }
 
+() require(int $condition) impure {
+    throw_unless(131, $condition);
+}
+
 () send((int, slice, int, int, cell, cell, cell) $params) impure {
     var (($params'bounce, $params'to, $params'value, $params'mode, $params'body, $params'code, $params'data)) = $params;
     builder $b = begin_cell();
@@ -201,7 +205,7 @@ _ __gen_get_owner() method_id(83229) {
     var ($self'counter, $self'owner) = $self;
     var ($msg'amount) = $msg;
     ($self'counter, $self'owner)~__gen_SampleTactContract_requireOwner();
-    throw_unless(478, (__tact_my_balance() > $msg'amount));
+    require((__tact_my_balance() > $msg'amount));
     send((false, $self'owner, $msg'amount, 0, null(), null(), null()));
     return (($self'counter, $self'owner), ());
 }

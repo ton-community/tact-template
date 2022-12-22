@@ -14,6 +14,7 @@ PROGRAM{
   DECLPROC __gen_load_SampleTactContract
   DECLPROC __gen_store_SampleTactContract
   DECLPROC storeBool
+  DECLPROC require
   DECLPROC send
   DECLPROC __gen_SampleTactContract_init
   DECLPROC __gen_SampleTactContract_requireOwner
@@ -130,6 +131,9 @@ PROGRAM{
     0 PUSHINT
     SWAP
     1 STI
+  }>
+  require PROC:<{
+    131 THROWIFNOT
   }>
   send PROC:<{
     NEWC
@@ -292,7 +296,7 @@ PROGRAM{
     __tact_my_balance INLINECALLDICT
     s3 PUSH
     GREATER
-    478 THROWIFNOT
+    require CALLDICT
     FALSE
     SWAP
     0 PUSHINT

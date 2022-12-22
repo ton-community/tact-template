@@ -21,7 +21,7 @@ describe('contract', () => {
         contract = new SampleTactContract(executor);
     })
     
-    it('should deploy correctly', async () => {
+    it('should increment counter', async () => {
         // Check counter
         expect((await contract.getCounter()).toString()).toEqual('0');
 
@@ -30,7 +30,9 @@ describe('contract', () => {
 
         // Check counter
         expect((await contract.getCounter()).toString()).toEqual('1');
-
+    });
+    
+    it('should disallow increment from non-owner', async () => {
         // Non-owner
         await expect(() => contract.send({ amount: toNano(1), from: nonOwner }, 'increment')).rejects.toThrowError('Access denied');
     });
@@ -71,7 +73,6 @@ describe('contract', () => {
             { amount: toNano(1), from: owner }, 
             {$$type: "Withdraw", amount: toNano(0.5)}
         )
-
         // TODO tx-emulator supports balances
     });
     
@@ -79,7 +80,7 @@ describe('contract', () => {
         await expect( contract.send(
             { amount: toNano(1), from: owner }, 
             {$$type: "Withdraw", amount: toNano(1.5)}
-        )).rejects.toThrowError('Exit code: 478');
+        )).rejects.toThrowError('Constraints error');
     });
     
     it('should not be able to withdraw from non-owner', async() => {
