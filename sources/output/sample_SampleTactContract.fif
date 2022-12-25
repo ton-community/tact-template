@@ -2,6 +2,7 @@ PROGRAM{
   DECLPROC __tact_my_balance
   DECLPROC __tact_not_null
   DECLPROC __tact_context_get
+  DECLPROC __tact_verify_address
   DECLPROC __tact_load_address
   DECLPROC __tact_store_address
   DECLPROC __tact_address_eq
@@ -14,7 +15,6 @@ PROGRAM{
   DECLPROC __gen_load_SampleTactContract
   DECLPROC __gen_store_SampleTactContract
   DECLPROC storeBool
-  DECLPROC require
   DECLPROC send
   DECLPROC __gen_SampleTactContract_init
   DECLPROC __gen_SampleTactContract_requireOwner
@@ -49,7 +49,13 @@ PROGRAM{
   }>
   __tact_context_get PROCINLINE:<{
     __tact_context GETGLOB
-    UNTRIPLE
+    4 UNTUPLE
+  }>
+  __tact_verify_address PROCINLINE:<{
+    SBITS
+    267 PUSHINT
+    NEQ
+    134 THROWIFNOT
   }>
   __tact_load_address PROCINLINE:<{
     LDMSGADDR
@@ -100,8 +106,8 @@ PROGRAM{
     s1 s2 XCHG
   }>
   __gen_Context_get_sender PROCINLINE:<{
-    DROP
-    NIP
+    s2 s3 XCHG
+    3 BLKDROP
   }>
   __gen_load_SampleTactContract PROCINLINE:<{
     c4 PUSH
@@ -131,9 +137,6 @@ PROGRAM{
     0 PUSHINT
     SWAP
     1 STI
-  }>
-  require PROC:<{
-    131 THROWIFNOT
   }>
   send PROC:<{
     NEWC
@@ -293,10 +296,11 @@ PROGRAM{
   __gen_SampleTactContract_receive_Withdraw PROC:<{
     -ROT
     __gen_SampleTactContract_requireOwner CALLDICT
+    22565 PUSHINT
     __tact_my_balance INLINECALLDICT
-    s3 PUSH
+    s4 PUSH
     GREATER
-    require CALLDICT
+    THROWANYIFNOT
     FALSE
     SWAP
     0 PUSHINT
@@ -349,9 +353,9 @@ PROGRAM{
     }>
     SWAP
     LDMSGADDR
-    DROP
-    s1 s0 s4 PUXC2
-    TRIPLE
+    s2 PUSH
+    s6 s6 XCHG2
+    4 TUPLE
     __tact_context SETGLOB
     s0 s2 XCHG
     IFJMP:<{
@@ -432,6 +436,6 @@ PROGRAM{
     86142586315491086060343270784266291122 PUSHINT
   }>
   get_abi_ipfs PROC:<{
-    x{697066733a2f2f516d50364e50594339557064444662586562596179787437326f6b6636336e6d364e346e47325537716b7650626e} PUSHSLICE
+    x{697066733a2f2f516d576e7032575a4b6368344a544b6a56646e706d595a706e323675416f773970583231666833737650524e3251} PUSHSLICE
   }>
 }END>c

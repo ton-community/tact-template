@@ -30,7 +30,7 @@ contract SampleTactContract with OwnableTransferable {
 
     receive(msg: Withdraw) {
         self.requireOwner();
-        require(myBalance() > msg.amount);
+        require(myBalance() > msg.amount, "Not enough balance");
         send(SendParameters{
             to: self.owner,
             value: msg.amount,

@@ -80,7 +80,7 @@ describe('contract', () => {
         await expect( contract.send(
             { amount: toNano(1), from: owner }, 
             {$$type: "Withdraw", amount: toNano(1.5)}
-        )).rejects.toThrowError('Constraints error');
+        )).rejects.toThrowError('Not enough balance');
     });
     
     it('should not be able to withdraw from non-owner', async() => {

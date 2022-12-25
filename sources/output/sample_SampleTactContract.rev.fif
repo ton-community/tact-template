@@ -28,9 +28,9 @@ SETCP0
     IFELSE
     s0 s1 XCHG
     LDMSGADDR
-    s0 POP
-    1 0 4 PUXC2
-    TRIPLE
+    s2 PUSH
+    s6 s6 XCHG2
+    4 TUPLE
     1 SETGLOBVAR
     s0 s2 XCHG
     <{
@@ -225,7 +225,7 @@ SETCP0
     ISNULL
     128 THROWIF
 
-  15: 
+  16: 
     <{
       -1 PUSHINT
       s0 s1 XCHG
@@ -236,16 +236,13 @@ SETCP0
     s0 s1 XCHG
     1 STI
 
-  16: 
-    131 THROWIFNOT
-
   17: 
     NEWC
     1 PUSHINT
     s0 s1 XCHG
     2 STI
     s0 s7 XCHG2
-    15 CALLDICT
+    16 CALLDICT
     0 PUSHINT
     s0 s1 XCHG
     3 STI
@@ -265,18 +262,18 @@ SETCP0
     OR
     <{
       -1 PUSHINT
-      15 CALLDICT
+      16 CALLDICT
       NEWC
       0 PUSHINT
-      15 CALLDICT
+      16 CALLDICT
       0 PUSHINT
-      15 CALLDICT
+      16 CALLDICT
       s4 PUSH
       ISNULL
       NOT
       <{
         -1 PUSHINT
-        15 CALLDICT
+        16 CALLDICT
         s0 s4 XCHG
         2 CALLDICT
         s0 s4 XCHG2
@@ -286,7 +283,7 @@ SETCP0
         s4 POP
         s0 s3 XCHG
         0 PUSHINT
-        15 CALLDICT
+        16 CALLDICT
       }> PUSHCONT
       IFELSE
       s4 PUSH
@@ -294,7 +291,7 @@ SETCP0
       NOT
       <{
         -1 PUSHINT
-        15 CALLDICT
+        16 CALLDICT
         s0 s4 XCHG
         2 CALLDICT
         s0 s4 XCHG2
@@ -304,14 +301,14 @@ SETCP0
         s4 POP
         s0 s3 XCHG
         0 PUSHINT
-        15 CALLDICT
+        16 CALLDICT
       }> PUSHCONT
       IFELSE
       0 PUSHINT
-      15 CALLDICT
+      16 CALLDICT
       s0 s2 XCHG
       -1 PUSHINT
-      15 CALLDICT
+      16 CALLDICT
       s0 s2 XCHG
       ENDC
       ROT
@@ -322,7 +319,7 @@ SETCP0
       s3 POP
       s0 s1 XCHG
       0 PUSHINT
-      15 CALLDICT
+      16 CALLDICT
     }> PUSHCONT
     IFELSE
     s1 PUSH
@@ -330,7 +327,7 @@ SETCP0
     NOT
     <{
       -1 PUSHINT
-      15 CALLDICT
+      16 CALLDICT
       s0 s1 XCHG
       2 CALLDICT
       s0 s1 XCHG
@@ -339,7 +336,7 @@ SETCP0
     <{
       s1 POP
       0 PUSHINT
-      15 CALLDICT
+      16 CALLDICT
     }> PUSHCONT
     IFELSE
     ENDC
@@ -360,9 +357,9 @@ SETCP0
 
   19: 
     1 GETGLOBVAR
-    3 UNTUPLE
-    s0 POP
-    s1 POP
+    4 UNTUPLE
+    s2 s3 XCHG
+    3 BLKDROP
     s1 PUSH
     SDEQ
     132 THROWIFNOT
@@ -395,11 +392,12 @@ SETCP0
   26: 
     ROTREV
     19 CALLDICT
+    22565 PUSHINT
     BALANCE
     0 INDEX
-    s3 PUSH
+    s4 PUSH
     GREATER
-    16 CALLDICT
+    THROWANYIFNOT
     0 PUSHINT
     s0 s1 XCHG
     0 PUSHINT
