@@ -188,6 +188,36 @@ export function unpackTupleSendParameters(slice: TupleSlice4): SendParameters {
     const data = slice.readCellOpt();
     return { $$type: 'SendParameters', bounce: bounce, to: to, value: value, mode: mode, body: body, code: code, data: data };
 }
+export type ChangeOwner = {
+    $$type: 'ChangeOwner';
+    newOwner: Address;
+}
+
+export function packChangeOwner(src: ChangeOwner): Cell {
+    let b_0 = new Builder();
+    b_0 = b_0.storeUint(3067051791, 32);
+    b_0 = b_0.storeAddress(src.newOwner);
+    return b_0.endCell();
+}
+
+export function packStackChangeOwner(src: ChangeOwner, __stack: StackItem[]) {
+    __stack.push({ type: 'slice', cell: beginCell().storeAddress(src.newOwner).endCell() });
+}
+
+export function packTupleChangeOwner(src: ChangeOwner): StackItem[] {
+    let __stack: StackItem[] = [];
+    __stack.push({ type: 'slice', cell: beginCell().storeAddress(src.newOwner).endCell() });
+    return __stack;
+}
+
+export function unpackStackChangeOwner(slice: TupleSlice4): ChangeOwner {
+    const newOwner = slice.readAddress();
+    return { $$type: 'ChangeOwner', newOwner: newOwner };
+}
+export function unpackTupleChangeOwner(slice: TupleSlice4): ChangeOwner {
+    const newOwner = slice.readAddress();
+    return { $$type: 'ChangeOwner', newOwner: newOwner };
+}
 export type Add = {
     $$type: 'Add';
     amount: BN;
@@ -218,8 +248,38 @@ export function unpackTupleAdd(slice: TupleSlice4): Add {
     const amount = slice.readBigNumber();
     return { $$type: 'Add', amount: amount };
 }
+export type Withdraw = {
+    $$type: 'Withdraw';
+    amount: BN;
+}
+
+export function packWithdraw(src: Withdraw): Cell {
+    let b_0 = new Builder();
+    b_0 = b_0.storeUint(1286094280, 32);
+    b_0 = b_0.storeInt(src.amount, 257);
+    return b_0.endCell();
+}
+
+export function packStackWithdraw(src: Withdraw, __stack: StackItem[]) {
+    __stack.push({ type: 'int', value: src.amount });
+}
+
+export function packTupleWithdraw(src: Withdraw): StackItem[] {
+    let __stack: StackItem[] = [];
+    __stack.push({ type: 'int', value: src.amount });
+    return __stack;
+}
+
+export function unpackStackWithdraw(slice: TupleSlice4): Withdraw {
+    const amount = slice.readBigNumber();
+    return { $$type: 'Withdraw', amount: amount };
+}
+export function unpackTupleWithdraw(slice: TupleSlice4): Withdraw {
+    const amount = slice.readBigNumber();
+    return { $$type: 'Withdraw', amount: amount };
+}
 export async function SampleTactContract_init(owner: Address) {
-    const __code = 'te6ccgECEwEAAW4AART/APSkE/S88sgLAQIBYgIDAgLMBAUCASAPEAHn32/bgQ66ThD8qYEGuFj+8BaGmBgLjYYADIv8i4cQD9IBEoMzeCfDCBSK3wEEEIYquag91HGhh2omhqAPwxfSAAgOmPrLYJAWmPgMEIYquag915cEDpj4CYiXgHZHwhAOYsrOeLZY/k9qpwYABImHGG+WBBQGAgEgBwgAlPkBgvDE+NcjEu3971t77HgzvbsWLRURvXipEq7Q8mN69lVyrrqOIu1E0NQB+GL6QAEB0x9ZbBLwD8j4QgHMWVnPFssfye1U2zHgABfzgBZGYBLOeLZY/kwCASAJCgIBIAsMAgEgDQ4AHz4QW8kW4ERTTIkxwXy9KCAAAwxgAAU8AyAABxx8AyAACb2ez4BcAgFIERIAKbdDHaiaGoA/DF9IACA6Y+stgl4BsABNt3owTgudh6ullc9j0J2HOslQo2zQThO6xqWlbI+WZFp15b++LEcw';
+    const __code = 'te6ccgECMQEAA8UAART/APSkE/S88sgLAQIBYgIDAgLLBAUCASAnKAIBYgYHAgEgDA0C907ftwIddJwh+VMCDXCx/eAtDTAwFxsMABkX+RcOIB+kAiUGZvBPhhApFb4CCCEMVXNQe6jjQw7UTQ1AH4YtMf+kABEmwSAtMfAYIQxVc1B7ry4IHTHwExEvAZyPhCAcxZAssfAc8Wye1U4CCCEEyoPci64wIgghC2z38PgICQALQgbvLQgIAG4w7UTQ1AH4YtMf+kABEmwSAtMfAYIQTKg9yLry4IGBAQHXAAExEvAayPhCAcxZAssfAc8Wye1UAYK6jjQw7UTQ1AH4YtMf+kABEmwSAtMfAYIQts9/D7ry4IH6QAExEvAdyPhCAcxZAssfAc8Wye1U4MAAkTDjDfLAggoB4vkBIILwxPjXIxLt/e9be+x4M727Fi0VEb14qRKu0PJjevZVcq66jiMw7UTQ1AH4YtMf+kABEmwS8BvI+EIBzFkCyx8BzxbJ7VTbMeCC8N5nD+6MVhIZfT/StAlGisYqCAT5wZYTrEvTJHcekIx4uuMCCwBE7UTQ1AH4YtMf+kABEmwS8BzI+EIBzFkCyx8BzxbJ7VTbMQIBIA4PAgEgHR4CASAQEQIBIBcYAgEgEhMCASAVFgAVJR/AcoA4HABygCAB9zIcQHKAVAH8BBwAcoCUAXPFlAD+gJwAcpoI26zJW6zsY49f/AQyHDwEHDwECRus5l/8BAE8AJQBMyVNANw8BDiJG6zmX/wEATwAlAEzJU0A3DwEOJw8BACf/AQAslYzJYzMwFw8BDiIW6zmH/wEAHwAgHMlDFw8BDiyQGAUAAT7AAAZHACyMxZAssfAc8WyYAAdPhBbyQQI18DIccF8uCEgAgEgGRoCASAbHAANFnwEwKgAYAADDCAACxb+CdvEIAAHFuAKoAIBIB8gAgFIJSYCASAhIgIBICMkAAMMYAAFPAUgADcWfATgVgl+CdvECS88vRwAXBtbSMHVSBt8BEBgAAccfAUgAAcAaUBgAAsWfATMAGACASApKgIBSCssAAm7PZ8BKAAnuFHe1E0NQB+GLTH/pAARJsEvAYgCAVgtLgIBIC8wACevYHaiaGoA/DFpj/0gAIk2CXgLQAAnrQx2omhqAPwxaY/9IACJNgl4CsAAJ7M+O1E0NQB+GLTH/pAARJsEvAXgAJWy9GCcFzsPV0srnsehOw51kqFG2aCcJ3WNS0rZHyzItOvLf3xYjmCcKAWPdCZRLm1qqkKwpYALAaCcEDOdWnnFfnSULAdYW4mR7KA=';
     const depends = new Map<string, Cell>();
     let systemCell = beginCell().storeDict(null).endCell();
     let __stack: StackItem[] = [];
@@ -255,20 +315,29 @@ export const SampleTactContract_errors: { [key: string]: string } = {
     '132': `Access denied`,
     '133': `Contract stopped`,
     '134': `Invalid argument`,
-    '4429': `Invalid sender`,
+    '22565': `Not enough balance`,
 }
 
 export class SampleTactContract {
     readonly executor: ContractExecutor; 
     constructor(executor: ContractExecutor) { this.executor = executor; } 
     
-    async send(args: { amount: BN, from?: Address, debug?: boolean }, message: Add | 'increment') {
+    async send(args: { amount: BN, from?: Address, debug?: boolean }, message: Add | Withdraw | 'increment' | 'dec' | ChangeOwner) {
         let body: Cell | null = null;
         if (message && typeof message === 'object' && !(message instanceof Slice) && message.$$type === 'Add') {
             body = packAdd(message);
         }
+        if (message && typeof message === 'object' && !(message instanceof Slice) && message.$$type === 'Withdraw') {
+            body = packWithdraw(message);
+        }
         if (message === 'increment') {
             body = beginCell().storeUint(0, 32).storeBuffer(Buffer.from(message)).endCell();
+        }
+        if (message === 'dec') {
+            body = beginCell().storeUint(0, 32).storeBuffer(Buffer.from(message)).endCell();
+        }
+        if (message && typeof message === 'object' && !(message instanceof Slice) && message.$$type === 'ChangeOwner') {
+            body = packChangeOwner(message);
         }
         if (body === null) { throw new Error('Invalid message type'); }
         try {
@@ -298,6 +367,54 @@ export class SampleTactContract {
             let result = await this.executor.get('counter', __stack, { debug: true });
             if (result.debugLogs.length > 0) { console.warn(result.debugLogs); }
             return result.stack.readBigNumber();
+        } catch (e) {
+            if (e instanceof ExecuteError) {
+                if (e.debugLogs.length > 0) { console.warn(e.debugLogs); }
+                if (SampleTactContract_errors[e.exitCode.toString()]) {
+                    throw new Error(SampleTactContract_errors[e.exitCode.toString()]);
+                }
+            }
+            throw e;
+        }
+    }
+    async getBalance() {
+        try {
+            let __stack: StackItem[] = [];
+            let result = await this.executor.get('balance', __stack, { debug: true });
+            if (result.debugLogs.length > 0) { console.warn(result.debugLogs); }
+            return result.stack.readBigNumber();
+        } catch (e) {
+            if (e instanceof ExecuteError) {
+                if (e.debugLogs.length > 0) { console.warn(e.debugLogs); }
+                if (SampleTactContract_errors[e.exitCode.toString()]) {
+                    throw new Error(SampleTactContract_errors[e.exitCode.toString()]);
+                }
+            }
+            throw e;
+        }
+    }
+    async getMeaningOfLife() {
+        try {
+            let __stack: StackItem[] = [];
+            let result = await this.executor.get('meaning_of_life', __stack, { debug: true });
+            if (result.debugLogs.length > 0) { console.warn(result.debugLogs); }
+            return result.stack.readBigNumber();
+        } catch (e) {
+            if (e instanceof ExecuteError) {
+                if (e.debugLogs.length > 0) { console.warn(e.debugLogs); }
+                if (SampleTactContract_errors[e.exitCode.toString()]) {
+                    throw new Error(SampleTactContract_errors[e.exitCode.toString()]);
+                }
+            }
+            throw e;
+        }
+    }
+    async getOwner() {
+        try {
+            let __stack: StackItem[] = [];
+            let result = await this.executor.get('owner', __stack, { debug: true });
+            if (result.debugLogs.length > 0) { console.warn(result.debugLogs); }
+            return result.stack.readAddress();
         } catch (e) {
             if (e instanceof ExecuteError) {
                 if (e.debugLogs.length > 0) { console.warn(e.debugLogs); }

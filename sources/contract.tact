@@ -1,11 +1,16 @@
+import "@stdlib/ownable";
+
 message Add {
     amount: Int as uint32;
 }
 
-contract SampleTactContract {
+message Withdraw {
+    amount: Int;
+}
 
-    owner: Address;
+contract SampleTactContract with OwnableTransferable {
     counter: Int as uint32;
+    owner: Address;
 
     init(owner: Address) {
         self.owner = owner;
@@ -13,10 +18,7 @@ contract SampleTactContract {
     }
 
     fun add(v: Int) {
-        
-        // Check sender
-        let ctx: Context = context();
-        require(ctx.sender == self.owner, "Invalid sender");
+        self.requireOwner();
         
         // Update counter
         self.counter = (self.counter + v);
@@ -26,11 +28,33 @@ contract SampleTactContract {
         self.add(msg.amount);
     }
 
+    receive(msg: Withdraw) {
+        self.requireOwner();
+        require(myBalance() > msg.amount, "Not enough balance");
+        send(SendParameters{
+            to: self.owner,
+            value: msg.amount,
+            bounce: false
+        });
+    }
+
     receive("increment") {
         self.add(1);
     }
 
+    receive("dec") {
+        self.counter = self.counter - 1;
+    }
+
     get fun counter(): Int {
         return self.counter;
+    }
+
+    get fun balance(): Int {
+        return myBalance();
+    }
+
+    get fun meaning_of_life(): Int {
+        return 42;
     }
 }

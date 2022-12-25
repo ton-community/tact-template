@@ -1,26 +1,52 @@
 PROGRAM{
+  DECLPROC __tact_my_balance
+  DECLPROC __tact_not_null
   DECLPROC __tact_context_get
   DECLPROC __tact_verify_address
   DECLPROC __tact_load_address
   DECLPROC __tact_store_address
   DECLPROC __tact_address_eq
+  DECLPROC __gen_read_ChangeOwner
   DECLPROC __gen_read_Add
+  DECLPROC __gen_read_Withdraw
   DECLPROC __gen_write_SampleTactContract
   DECLPROC __gen_read_SampleTactContract
+  DECLPROC __gen_Context_get_sender
   DECLPROC __gen_load_SampleTactContract
   DECLPROC __gen_store_SampleTactContract
+  DECLPROC storeBool
+  DECLPROC send
   DECLPROC __gen_SampleTactContract_init
+  DECLPROC __gen_SampleTactContract_requireOwner
   DECLPROC __gen_SampleTactContract_add
   DECLPROC __gen_SampleTactContract_counter
   104984 DECLMETHOD __gen_get_counter
+  DECLPROC __gen_SampleTactContract_balance
+  104128 DECLMETHOD __gen_get_balance
+  DECLPROC __gen_SampleTactContract_meaning_of_life
+  109816 DECLMETHOD __gen_get_meaning_of_life
+  DECLPROC __gen_SampleTactContract_owner
+  83229 DECLMETHOD __gen_get_owner
   DECLPROC __gen_SampleTactContract_receive_Add
+  DECLPROC __gen_SampleTactContract_receive_Withdraw
   DECLPROC __gen_SampleTactContract_receive_comment_c4f8d72312edfdef5b7bec7833bdbb162d1511bd78a912aed0f2637af65572ae
+  DECLPROC __gen_SampleTactContract_receive_comment_de670fee8c5612197d3fd2b409468ac62a0804f9c19613ac4bd324771e908c78
+  DECLPROC __gen_SampleTactContract_receive_ChangeOwner
   DECLPROC recv_internal
   78809 DECLMETHOD init_SampleTactContract
   113617 DECLMETHOD supported_interfaces
   DECLPROC get_abi_ipfs
   DECLGLOBVAR __tact_context
   DECLGLOBVAR __tact_context_sys
+  __tact_my_balance PROCINLINE:<{
+    BALANCE
+    FIRST
+  }>
+  __tact_not_null PROC:<{
+    DUP
+    ISNULL
+    128 THROWIF
+  }>
   __tact_context_get PROCINLINE:<{
     __tact_context GETGLOB
     4 UNTUPLE
@@ -41,6 +67,14 @@ PROGRAM{
   __tact_address_eq PROCINLINE:<{
     SDEQ
   }>
+  __gen_read_ChangeOwner PROCINLINE:<{
+    32 LDU
+    SWAP
+    3067051791 PUSHINT
+    EQUAL
+    129 THROWIFNOT
+    __tact_load_address INLINECALLDICT
+  }>
   __gen_read_Add PROCINLINE:<{
     32 LDU
     SWAP
@@ -50,16 +84,30 @@ PROGRAM{
     32 LDU
     SWAP
   }>
+  __gen_read_Withdraw PROCINLINE:<{
+    32 LDU
+    SWAP
+    1286094280 PUSHINT
+    EQUAL
+    129 THROWIFNOT
+    257 PUSHINT
+    LDIX
+    SWAP
+  }>
   __gen_write_SampleTactContract PROCINLINE:<{
-    -ROT
-    __tact_store_address INLINECALLDICT
+    s0 s2 XCHG
     32 STU
+    SWAP
+    __tact_store_address INLINECALLDICT
   }>
   __gen_read_SampleTactContract PROCINLINE:<{
-    __tact_load_address INLINECALLDICT
-    SWAP
     32 LDU
-    -ROT
+    __tact_load_address INLINECALLDICT
+    s1 s2 XCHG
+  }>
+  __gen_Context_get_sender PROCINLINE:<{
+    s2 s3 XCHG
+    3 BLKDROP
   }>
   __gen_load_SampleTactContract PROCINLINE:<{
     c4 PUSH
@@ -80,38 +128,205 @@ PROGRAM{
     ENDC
     c4 POP
   }>
+  storeBool PROC:<{
+    IFJMP:<{
+      -1 PUSHINT
+      SWAP
+      1 STI
+    }>
+    0 PUSHINT
+    SWAP
+    1 STI
+  }>
+  send PROC:<{
+    NEWC
+    1 PUSHINT
+    SWAP
+    2 STI
+    s0 s7 XCHG2
+    storeBool CALLDICT
+    0 PUSHINT
+    SWAP
+    3 STI
+    s0 s5 XCHG2
+    __tact_store_address INLINECALLDICT
+    s0 s3 XCHG2
+    STGRAMS
+    0 PUSHINT
+    SWAP
+    105 STI
+    s3 PUSH
+    ISNULL
+    NOT
+    s5 PUSH
+    ISNULL
+    NOT
+    OR
+    IF:<{
+      TRUE
+      storeBool CALLDICT
+      NEWC
+      FALSE
+      storeBool CALLDICT
+      FALSE
+      storeBool CALLDICT
+      s4 PUSH
+      ISNULL
+      NOT
+      IF:<{
+        TRUE
+        storeBool CALLDICT
+        s0 s4 XCHG
+        __tact_not_null CALLDICT
+        s0 s4 XCHG2
+        STREF
+      }>ELSE<{
+        s4 POP
+        s0 s3 XCHG
+        FALSE
+        storeBool CALLDICT
+      }>
+      s4 PUSH
+      ISNULL
+      NOT
+      IF:<{
+        TRUE
+        storeBool CALLDICT
+        s0 s4 XCHG
+        __tact_not_null CALLDICT
+        s0 s4 XCHG2
+        STREF
+      }>ELSE<{
+        s4 POP
+        s0 s3 XCHG
+        FALSE
+        storeBool CALLDICT
+      }>
+      FALSE
+      storeBool CALLDICT
+      s0 s2 XCHG
+      TRUE
+      storeBool CALLDICT
+      s0 s2 XCHG
+      ENDC
+      ROT
+      STREF
+    }>ELSE<{
+      s3 POP
+      s3 POP
+      SWAP
+      FALSE
+      storeBool CALLDICT
+    }>
+    OVER
+    ISNULL
+    NOT
+    IF:<{
+      TRUE
+      storeBool CALLDICT
+      SWAP
+      __tact_not_null CALLDICT
+      SWAP
+      STREF
+    }>ELSE<{
+      NIP
+      FALSE
+      storeBool CALLDICT
+    }>
+    ENDC
+    SWAP
+    SENDRAWMSG
+  }>
   __gen_SampleTactContract_init PROC:<{
     0 PUSHINT
     s0 s2 XCHG
     NEWC
     STREF
-    s0 s2 XCHG
+    -ROT
     __gen_write_SampleTactContract INLINECALLDICT
     ENDC
   }>
-  __gen_SampleTactContract_add PROC:<{
+  __gen_SampleTactContract_requireOwner PROC:<{
     __tact_context_get INLINECALLDICT
-    2DROP
-    4429 PUSHINT
-    s2 POP
-    s4 PUSH
+    __gen_Context_get_sender INLINECALLDICT
+    OVER
     __tact_address_eq INLINECALLDICT
-    THROWANYIFNOT
+    132 THROWIFNOT
+  }>
+  __gen_SampleTactContract_add PROC:<{
+    -ROT
+    __gen_SampleTactContract_requireOwner CALLDICT
+    s0 s2 XCHG
     ADD
+    SWAP
   }>
   __gen_SampleTactContract_counter PROC:<{
-    NIP
+    DROP
   }>
   __gen_get_counter PROC:<{
     __gen_load_SampleTactContract INLINECALLDICT
     __gen_SampleTactContract_counter CALLDICT
   }>
+  __gen_SampleTactContract_balance PROC:<{
+    2DROP
+    __tact_my_balance INLINECALLDICT
+  }>
+  __gen_get_balance PROC:<{
+    __gen_load_SampleTactContract INLINECALLDICT
+    __gen_SampleTactContract_balance CALLDICT
+  }>
+  __gen_SampleTactContract_meaning_of_life PROC:<{
+    2DROP
+    42 PUSHINT
+  }>
+  __gen_get_meaning_of_life PROC:<{
+    __gen_load_SampleTactContract INLINECALLDICT
+    __gen_SampleTactContract_meaning_of_life CALLDICT
+  }>
+  __gen_SampleTactContract_owner PROC:<{
+    NIP
+  }>
+  __gen_get_owner PROC:<{
+    __gen_load_SampleTactContract INLINECALLDICT
+    __gen_SampleTactContract_owner CALLDICT
+  }>
   __gen_SampleTactContract_receive_Add PROC:<{
     __gen_SampleTactContract_add CALLDICT
+  }>
+  __gen_SampleTactContract_receive_Withdraw PROC:<{
+    -ROT
+    __gen_SampleTactContract_requireOwner CALLDICT
+    22565 PUSHINT
+    __tact_my_balance INLINECALLDICT
+    s4 PUSH
+    GREATER
+    THROWANYIFNOT
+    FALSE
+    SWAP
+    0 PUSHINT
+    PUSHNULL
+    PUSHNULL
+    s3 PUSH
+    s0 s7 XCHG
+    3 -ROLL
+    PUSHNULL
+    send CALLDICT
+    SWAP
   }>
   __gen_SampleTactContract_receive_comment_c4f8d72312edfdef5b7bec7833bdbb162d1511bd78a912aed0f2637af65572ae PROC:<{
     1 PUSHINT
     __gen_SampleTactContract_add CALLDICT
+  }>
+  __gen_SampleTactContract_receive_comment_de670fee8c5612197d3fd2b409468ac62a0804f9c19613ac4bd324771e908c78 PROC:<{
+    SWAP
+    DEC
+    SWAP
+  }>
+  __gen_SampleTactContract_receive_ChangeOwner PROC:<{
+    -ROT
+    __gen_SampleTactContract_requireOwner CALLDICT
+    DROP
+    SWAP
   }>
   recv_internal PROC:<{
     SAMEALTSAVE
@@ -159,14 +374,50 @@ PROGRAM{
       __gen_SampleTactContract_receive_Add CALLDICT
       __gen_store_SampleTactContract INLINECALLDICT
     }>
+    DUP
+    1286094280 PUSHINT
+    EQUAL
+    IFJMP:<{
+      DROP
+      __gen_load_SampleTactContract INLINECALLDICT
+      s0 s2 XCHG
+      __gen_read_Withdraw INLINECALLDICT
+      NIP
+      s1 s2 XCHG
+      __gen_SampleTactContract_receive_Withdraw CALLDICT
+      __gen_store_SampleTactContract INLINECALLDICT
+    }>
+    DUP
+    3067051791 PUSHINT
+    EQUAL
+    IFJMP:<{
+      DROP
+      __gen_load_SampleTactContract INLINECALLDICT
+      s0 s2 XCHG
+      __gen_read_ChangeOwner INLINECALLDICT
+      NIP
+      s1 s2 XCHG
+      __gen_SampleTactContract_receive_ChangeOwner CALLDICT
+      __gen_store_SampleTactContract INLINECALLDICT
+    }>
     0 EQINT
     IF:<{
       HASHSU
+      DUP
       89092981215441470209245890604563109773385607357076622359718516871332286001838 PUSHINT
       EQUAL
       IFJMP:<{
+        DROP
         __gen_load_SampleTactContract INLINECALLDICT
         __gen_SampleTactContract_receive_comment_c4f8d72312edfdef5b7bec7833bdbb162d1511bd78a912aed0f2637af65572ae CALLDICT
+        __gen_store_SampleTactContract INLINECALLDICT
+        RETALT
+      }>
+      100595547590598948711597982087367633970071360142702224366101845453322392210552 PUSHINT
+      EQUAL
+      IFJMP:<{
+        __gen_load_SampleTactContract INLINECALLDICT
+        __gen_SampleTactContract_receive_comment_de670fee8c5612197d3fd2b409468ac62a0804f9c19613ac4bd324771e908c78 CALLDICT
         __gen_store_SampleTactContract INLINECALLDICT
         RETALT
       }>
@@ -181,8 +432,10 @@ PROGRAM{
   supported_interfaces PROC:<{
     123515602279859691144772641439386770278 PUSHINT
     209801025412363888721030803524359905849 PUSHINT
+    212791963610352222038671851416501365766 PUSHINT
+    86142586315491086060343270784266291122 PUSHINT
   }>
   get_abi_ipfs PROC:<{
-    x{697066733a2f2f516d614c7145677076667a594a65657050574c553374385072506579696270546553726943744b6f665145743448} PUSHSLICE
+    x{697066733a2f2f516d576e7032575a4b6368344a544b6a56646e706d595a706e323675416f773970583231666833737650524e3251} PUSHSLICE
   }>
 }END>c
