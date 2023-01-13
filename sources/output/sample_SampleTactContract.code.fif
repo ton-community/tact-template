@@ -2,6 +2,7 @@ PROGRAM{
   DECLPROC __tact_not_null
   DECLPROC __tact_context_get
   DECLPROC __tact_verify_address
+  DECLPROC __tact_store_bool
   DECLPROC __tact_load_address
   DECLPROC __tact_store_address
   DECLPROC __tact_address_eq
@@ -13,7 +14,6 @@ PROGRAM{
   DECLPROC __gen_read_SampleTactContract
   DECLPROC __gen_load_SampleTactContract
   DECLPROC __gen_store_SampleTactContract
-  DECLPROC $storeBool
   DECLPROC $send
   DECLPROC $reply
   DECLPROC $__gen_SampleTactContract_add
@@ -40,7 +40,11 @@ PROGRAM{
     SBITS
     267 PUSHINT
     NEQ
-    134 THROWIFNOT
+    136 THROWIFNOT
+  }>
+  __tact_store_bool PROCINLINE:<{
+    SWAP
+    1 STI
   }>
   __tact_load_address PROCINLINE:<{
     LDMSGADDR
@@ -112,23 +116,13 @@ PROGRAM{
     ENDC
     c4 POP
   }>
-  $storeBool PROC:<{
-    IFJMP:<{
-      -1 PUSHINT
-      SWAP
-      1 STI
-    }>
-    0 PUSHINT
-    SWAP
-    1 STI
-  }>
   $send PROC:<{
     NEWC
     1 PUSHINT
     SWAP
     2 STI
     s0 s7 XCHG2
-    $storeBool CALLDICT
+    __tact_store_bool INLINECALLDICT
     0 PUSHINT
     SWAP
     3 STI
@@ -148,18 +142,18 @@ PROGRAM{
     OR
     IF:<{
       TRUE
-      $storeBool CALLDICT
+      __tact_store_bool INLINECALLDICT
       NEWC
       FALSE
-      $storeBool CALLDICT
+      __tact_store_bool INLINECALLDICT
       FALSE
-      $storeBool CALLDICT
+      __tact_store_bool INLINECALLDICT
       s4 PUSH
       ISNULL
       NOT
       IF:<{
         TRUE
-        $storeBool CALLDICT
+        __tact_store_bool INLINECALLDICT
         s0 s4 XCHG
         __tact_not_null CALLDICT
         s0 s4 XCHG2
@@ -168,14 +162,14 @@ PROGRAM{
         s4 POP
         s0 s3 XCHG
         FALSE
-        $storeBool CALLDICT
+        __tact_store_bool INLINECALLDICT
       }>
       s4 PUSH
       ISNULL
       NOT
       IF:<{
         TRUE
-        $storeBool CALLDICT
+        __tact_store_bool INLINECALLDICT
         s0 s4 XCHG
         __tact_not_null CALLDICT
         s0 s4 XCHG2
@@ -184,13 +178,13 @@ PROGRAM{
         s4 POP
         s0 s3 XCHG
         FALSE
-        $storeBool CALLDICT
+        __tact_store_bool INLINECALLDICT
       }>
       FALSE
-      $storeBool CALLDICT
+      __tact_store_bool INLINECALLDICT
       s0 s2 XCHG
       TRUE
-      $storeBool CALLDICT
+      __tact_store_bool INLINECALLDICT
       s0 s2 XCHG
       ENDC
       ROT
@@ -200,14 +194,14 @@ PROGRAM{
       s3 POP
       SWAP
       FALSE
-      $storeBool CALLDICT
+      __tact_store_bool INLINECALLDICT
     }>
     OVER
     ISNULL
     NOT
     IF:<{
       TRUE
-      $storeBool CALLDICT
+      __tact_store_bool INLINECALLDICT
       SWAP
       __tact_not_null CALLDICT
       SWAP
@@ -215,7 +209,7 @@ PROGRAM{
     }>ELSE<{
       NIP
       FALSE
-      $storeBool CALLDICT
+      __tact_store_bool INLINECALLDICT
     }>
     ENDC
     SWAP
@@ -263,6 +257,7 @@ PROGRAM{
     $reply CALLDICT
   }>
   recv_internal PROC:<{
+    c2 SAVE
     SAMEALTSAVE
     0 PUSHINT
     OVER
@@ -342,6 +337,6 @@ PROGRAM{
     209801025412363888721030803524359905849 PUSHINT
   }>
   get_abi_ipfs PROC:<{
-    x{697066733a2f2f516d594b7a3756334270706a66383268734d475943514157707470433462346a7956594c6b6e6351616a5268674e} PUSHSLICE
+    x{697066733a2f2f516d584636464b5a71636534783772363565426d5875436e63367150766867474d506732506867737444504c5572} PUSHSLICE
   }>
 }END>c

@@ -2500,6 +2500,11 @@ protobufjs@^6.10.2:
     "@types/node" ">=13.7.0"
     long "^4.0.0"
 
+qrcode-terminal@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/qrcode-terminal/-/qrcode-terminal-0.12.0.tgz#bb5b699ef7f9f0505092a3748be4464fe71b5819"
+  integrity sha512-EXtzRZmC+YGmGlDFbXKxQiMZNwCLEO6BANKXG4iCtSIM0yqc/pappSx3RIKr4r0uh5JsBckOXeKrB3Iz7mdQpQ==
+
 qs@^6.11.0:
   version "6.11.0"
   resolved "https://registry.npmjs.org/qs/-/qs-6.11.0.tgz"
@@ -2801,10 +2806,10 @@ to-regex-range@^5.0.1:
   dependencies:
     is-number "^7.0.0"
 
-ton-compiler@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/ton-compiler/-/ton-compiler-2.0.0.tgz"
-  integrity sha512-ZLljfTeneFPd3ENfxx/OHhwKZzQF8j8oShVjqS5LQC7O603xmzU6QD8XGe/syqIZJx2a5xvho1So0nqrbqXWQw==
+ton-compiler@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/ton-compiler/-/ton-compiler-2.1.1.tgz#9f44bed5ab39a8b0ae64d94a71c4a07a913dea0c"
+  integrity sha512-IE4oqSw3P6O/U1w09oKWSI2uDbm6uR2PgWSRtgtKBMI2qmdR0Icrx4TSt7lq3WlZ5vUHKN/DEO0KolpCOY0+OA==
   dependencies:
     arg "^5.0.1"
     tmp "^0.2.1"
@@ -2841,10 +2846,10 @@ ton-emulator@^1.3.0:
     teslabot "^1.5.0"
     zod "^3.20.2"
 
-ton-tact@^0.8.0:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/ton-tact/-/ton-tact-0.8.1.tgz#47f7d999ea26a718ff5731198d2b6a5e0d13b023"
-  integrity sha512-oCO1nWD8NgUZnyz78kbuk/JEBXHTr/TjqiFHdCWNCpduOuH6oYDLxDHvM14GIZ5MVuKreJlD8itZjO9BvZc1GQ==
+ton-tact@^0.8.7:
+  version "0.8.7"
+  resolved "https://registry.yarnpkg.com/ton-tact/-/ton-tact-0.8.7.tgz#c3dc9c9e217af57734beb001b76157787f6ab899"
+  integrity sha512-j6aSa15eqR1o/byWWGlUC7e2PIC7CHoieslnbyAddnck4Fy5UUf27Jq88rnYdgOpdC19A8wWRq4emiwYZMzCnA==
   dependencies:
     "@ipld/dag-pb" "2.1.18"
     "@types/tmp" "^0.2.3"
@@ -2858,7 +2863,7 @@ ton-tact@^0.8.0:
     prando "^6.0.1"
     qs "^6.11.0"
     tmp "^0.2.1"
-    ton-compiler "^2.0.0"
+    ton-compiler "^2.1.1"
     ton-core ">=0.44.0"
     ton-crypto "^3.2.0"
     tvm-disassembler "^2.0.0"
