@@ -91,30 +91,51 @@ export async function deploy(init: { code: Cell, data: Cell }, value: bigint, co
         }]
     }])).kind;
 
+    const qrcode = require('qrcode-terminal');
+
     // Show tonhub link
     if (kind === 'tonhub') {
         printSeparator();
-        console.log("Deploy: " + getTonhubLink(init, value, command, testnet));
+        let l = getTonhubLink(init, value, command, testnet);
+        qrcode.generate(l, {small: true}, function (qrcode : any) {
+            console.log('QR code for Tonhub/Sandbox wallet:' )
+            console.log(qrcode);
+            console.log('* If QR is still too big, please run script from the terminal. (or make the font smaller)')
+        });
         printSeparator();
+        console.log("Deploy: " + l);
         return;
     }
 
-    // Show tonkeeper link
+
+    // Show tonkeeper link with QR
     if (kind === 'tonkeeper') {
         printSeparator();
-        console.log("Deploy: " + getTonkeeperLink(init, value, command, testnet));
+        let l = getTonkeeperLink(init, value, command, testnet);
+        qrcode.generate(l, {small: true}, function (qrcode : any) {
+            console.log('QR code for Tonkeeper wallet:' )
+            console.log(qrcode);
+            console.log('* If QR is still too big, please run script from the terminal. (or make the font smaller)')
+        });
         printSeparator();
+        console.log("Deploy: " + l);
         return;
     }
 
-    // Show tonkeeper link
+    // Show tonkeeper link with QR
     if (kind === 'local') {
 
         // Create a link and display to the user
         let l = getLocalLink(init, value, command, testnet);
         printSeparator();
-        console.log("Deploy: " + l);
+        qrcode.generate(l, {small: true}, function (qrcode : any) {
+            console.log('QR code for TON wallet:' )
+            console.log(qrcode);
+            console.log('* If QR is still too big, please run script from the terminal. (or make the font smaller)')
+        });
+
         printSeparator();
+        console.log("Deploy: " + l);
 
         // Open link
         open(l);

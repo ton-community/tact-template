@@ -46,13 +46,6 @@ export function printDeploy(init: { code: Cell, data: Cell }, value: bigint, com
     }
     console.log("Deploy: " + link);
     printSeparator();
-    throw("else");
 
 
-    const qrcode = require('qrcode-terminal');
-    qrcode.generate(link, {small: true}, function (qrcode : any) {
-        console.log('QR code for TON wallet:' )
-        console.log(qrcode);
-        console.log('* If QR is still too big, please run script from the terminal. (or make the font smaller)')
-    });
 }
