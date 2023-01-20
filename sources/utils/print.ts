@@ -46,4 +46,6 @@ export function printDeploy(init: { code: Cell, data: Cell }, value: bigint, com
     }
     console.log("Deploy: " + link);
     printSeparator();
+
+
 }
