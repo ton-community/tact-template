@@ -14,14 +14,9 @@ import { printAddress, printDeploy, printHeader } from "./utils/print";
     let deployAmount = toNano('0.5');
     let testnet = true;
 
-    // Print basics
+    // Do deploy
     printHeader('SampleTactContract');
     printAddress(address);
-    // printDeploy(init, deployAmount, packed, testnet);
-    
-    // Do deploy
+
     await deploy(init, deployAmount, packed, testnet)
 })();
-//
-// Address: kQAd00TX4YPxBfyWjArkionTZJVMoRzFQUM2ntQBcFycWYr4
-// Explorer: https://testnet.tonapi.io/account/kQAd00TX4YPxBfyWjArkionTZJVMoRzFQUM2ntQBcFycWYr4
